@@ -1,21 +1,25 @@
-package edu.joseph.model;
+package edu.joseph.sed.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import edu.joseph.sed.model.Enums.Subjects;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.br.CPF;
 
 import java.time.LocalDate;
+import java.util.List;
 
-@Data
-public abstract class Person {
+@Entity
+@Table(name = "tb_teacher")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class Teacher extends Person{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,4 +46,7 @@ public abstract class Person {
     @Size(max = 40, message = "Invalid size")
     private String nationality;
 
+    private List<Subjects> subjects;
+
+    //Role
 }

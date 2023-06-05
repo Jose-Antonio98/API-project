@@ -1,21 +1,23 @@
-package edu.joseph.service;
+package edu.joseph.sed.service;
 
-import edu.joseph.model.ADM;
-import edu.joseph.model.Enums.Roles;
-import edu.joseph.model.Enums.Status;
-import edu.joseph.repository.AdmRepository;
+import edu.joseph.sed.model.Adm;
+import edu.joseph.sed.model.Enums.Roles;
+import edu.joseph.sed.model.Enums.Status;
+import edu.joseph.sed.repository.AdmRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@AllArgsConstructor
 public class AdmService {
 
     AdmRepository admRepository;
 
     //Exibir
     @Transactional(readOnly = true)
-    public ADM showAdm(String cpf){
-        if (admRepository.existsCPF(cpf)){
+    public Adm showAdm(String cpf){
+        if (admRepository.existsByCpf(cpf)){
             var obj = admRepository.findByCpf(cpf);
             return obj;
         }
@@ -24,8 +26,8 @@ public class AdmService {
 
     //criar adm
     @Transactional
-    public ADM creatAdm(ADM obj){
-        if(admRepository.existsCPF(obj.getCpf())) {
+    public Adm creatAdm(Adm obj){
+        if(admRepository.existsByCpf(obj.getCpf())) {
             updateAdm(obj.getCpf(), obj);
             obj.setStatus(Status.ACTIVE);
             return admRepository.save(obj);
@@ -39,7 +41,7 @@ public class AdmService {
     //TODO excluir
     @Transactional
     public void deactivateAdm(String cpf){
-        if (admRepository.existsCPF(cpf)){
+        if (admRepository.existsByCpf(cpf)){
             var obj = admRepository.findByCpf(cpf);
             obj.setRole(null);
             obj.setStatus(Status.INACTIVE);
@@ -47,7 +49,7 @@ public class AdmService {
     }
 
     public void excludeAdm(String cpf){
-        if (admRepository.existsCPF(cpf)){
+        if (admRepository.existsByCpf(cpf)){
             var obj = admRepository.findByCpf(cpf);
             admRepository.delete(obj);
         }
@@ -55,7 +57,7 @@ public class AdmService {
 
     //atualizar
     @Transactional
-    public ADM updateAdm(String cpf, ADM obj){
+    public Adm updateAdm(String cpf, Adm obj){
         var updateEntity = admRepository.findByCpf(cpf);
         if (updateEntity != null){
             updateData(updateEntity, obj);
@@ -65,7 +67,7 @@ public class AdmService {
     }
 
     //Auxiliares
-    private void updateData(ADM entity, ADM newEntity) {
+    private void updateData(Adm entity, Adm newEntity) {
         entity.setName(newEntity.getName());
         entity.setUserName(newEntity.getUserName());
         entity.setPassword(newEntity.getPassword());

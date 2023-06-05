@@ -1,4 +1,4 @@
-package edu.joseph.model.Enums;
+package edu.joseph.sed.model.Enums;
 
 public enum Status {
     ACTIVE,

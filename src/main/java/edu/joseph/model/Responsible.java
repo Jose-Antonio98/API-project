@@ -1,12 +1,15 @@
 package edu.joseph.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
-@Data
+
 @Embeddable
 @Entity
 @Table(name = "tb_responsible")
+@Builder
+@NoArgsConstructor
 public class Responsible extends Person{
 
     @ManyToOne

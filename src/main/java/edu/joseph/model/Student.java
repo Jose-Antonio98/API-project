@@ -19,6 +19,9 @@ public class Student extends Person{
     @ManyToOne
     private Responsible responsible;
 
+    private int age;
+
+    private Status status;
 
     //classes um aluno pode ter varias classes desde que os anos
     //sejam diferentes

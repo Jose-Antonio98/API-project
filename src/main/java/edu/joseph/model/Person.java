@@ -30,6 +30,10 @@ public abstract class Person {
     @Column(unique = true)
     private String rg;
 
+    @CPF
+    @Column(unique = true)
+    private String cpf;
+
     @NotBlank
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private LocalDate birthDate;
@@ -38,6 +42,4 @@ public abstract class Person {
     @Size(max = 40, message = "Invalid size")
     private String nationality;
 
-    //Roles role;
-    //
 }

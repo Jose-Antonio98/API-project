@@ -2,19 +2,14 @@ package edu.joseph.sed.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import edu.joseph.sed.dto.AdmDto;
-import edu.joseph.sed.model.Enums.Roles;
-import edu.joseph.sed.model.Enums.Status;
+import edu.joseph.sed.dto.DtoAdm;
+import edu.joseph.sed.dto.DtoUser;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.*;
 import org.hibernate.validator.constraints.br.CPF;
 
-import java.time.LocalDate;
-
+@Embeddable
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -43,26 +38,36 @@ public class Adm {
 
     @NotNull
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
-    private LocalDate birthDate;
+    @Pattern(regexp = "^(0[1-9]|1\\d|2\\d|3[01])-(0[1-9]|1[0-2])-\\d{4}$")
+    private String birthDate;
 
     @NotBlank
     @Size(max = 40, message = "Invalid size")
     private String nationality;
 
     @NotBlank
-    @Size(max = 25, message = "Invalid size")
-    private String userName;
+    @Email
+    private String email;
 
-    @NotBlank
-    @Size(max = 25, message = "Invalid size")
-    private String password;
+    @Embedded
+    private User user;
 
-    private Status status;
 
-    private Roles role;
-
-    public AdmDto toDto(){
-        return new AdmDto(name, rg, cpf, birthDate, nationality);
+    public DtoAdm toDto(){
+        return DtoAdm.builder()
+                .name(name)
+                .rg(rg)
+                .cpf(cpf)
+                .nationality(nationality)
+                .birthDate(birthDate)
+                .email(email)
+                .build();
     }
 
+    public DtoUser toUserDto(){
+        return DtoUser.builder()
+                .userName(user.getUserName())
+                .status(user.getStatus())
+                .role(user.getRole()).build();
+    }
 }

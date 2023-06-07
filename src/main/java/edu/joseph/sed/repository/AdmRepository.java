@@ -10,4 +10,5 @@ public interface AdmRepository extends JpaRepository<Adm, Long> {
 
     boolean existsByCpf(@CPF String cpf);
 
+    Adm getReferenceByCpf(String cpf);
 }
